@@ -1,0 +1,10 @@
+.nav {
+    float: right;
+}
+
+.dropdown-menu {
+    position: relative;
+    float: none;
+    text-align: center;
+    min-width: 0;
+}

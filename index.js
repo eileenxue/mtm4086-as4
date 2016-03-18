@@ -7,13 +7,16 @@ var ejsmate = require('ejs-mate');
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
 var flash = require('express-flash');
+var MongoStore = require('connect-mongo')(session);
+var passport = require('passport');
 
+var secret = require('./config/secret');
 var User = require('./models/user');
 
 var app = express();
 
 
-mongoose.connect('mongodb://root:12345@ds011429.mlab.com:11429/mtm4086-as4', function (err) {
+mongoose.connect(secret.database, function (err) {
     if (err) {
         console.log(err);
     } else {
@@ -32,10 +35,23 @@ app.use(bodyParser.urlencoded({
 app.use(cookieParser());
 app.use(session({
     resave: true,
-    saveUnitialized: true,
-    secret: "EileenIsAwesome"
+    saveUninitialized: true,
+    secret: secret.secretKey,
+    store: new MongoStore({
+        url: secret.database,
+        autoReconnect: true
+    })
 }));
 app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
+//make the user available on all pages
+app.use(function (req, res, next) {
+    res.locals.user = req.user;
+    next();
+});
+
+
 
 app.engine('ejs', ejsmate);
 app.set('view engine', 'ejs');
@@ -65,7 +81,7 @@ app.get('/shop', function (req, res) {
 app.put()
 app.delete()*/
 
-app.listen(3000, function (err) {
+app.listen(secret.port, function (err) {
     if (err) throw err;
-    console.log("Server is Running");
+    console.log("Server is Running on Port " + secret.port);
 });
