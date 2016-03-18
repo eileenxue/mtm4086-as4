@@ -46,6 +46,7 @@ router.post('/signup', function (req, res, next) {
     user.profile.name = req.body.name;
     user.password = req.body.password;
     user.email = req.body.email;
+    user.profile.picture = user.gravatar();
 
     User.findOne({
         email: req.body.email
@@ -61,17 +62,47 @@ router.post('/signup', function (req, res, next) {
                 if (err) return next(err);
 
                 /*res.json("New user has been created");*/
-                return res.redirect('/');
+                /*return res.redirect('/');*/
+                req.logIn(user, function (err) {
+                    if (err) return next(err);
+                    res.redirect('/profile');
+                });
             });
         }
     });
 });
 
+/*After logging out, redirect users to homepage*/
 router.get('/logout', function (req, res, next) {
     req.logout();
     res.redirect('/');
 });
 
+router.get('/edit-profile', function (req, res, next) {
+    res.render('accounts/edit-profile.ejs', {
+        message: req.flash('success')
+    });
+});
+
+router.post('/edit-profile', function (req, res, next) {
+    User.findOne({
+        _id: req.user._id
+    }, function (err, user) {
+        if (err) return next(err);
+        if (req.body.name) user.profile.name = req.body.name;
+        if (req.body.address) user.address = req.body.address;
+
+        user.save(function (err) {
+            if (err) return next(err);
+            req.flash('success', 'You have successfully changed your identity');
+            return res.redirect('edit-profile');
+        });
+    });
+});
+
+
+/*Make sure to
+export this, otherwise can 't be used*/
 module.exports = router;
 
 

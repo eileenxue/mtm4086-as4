@@ -10,10 +10,27 @@ var flash = require('express-flash');
 var MongoStore = require('connect-mongo')(session);
 var passport = require('passport');
 
+
+/*var http = require('http');*/
+/*
+var io = require('socket.io');
+
+*/
+
+
+
 var secret = require('./config/secret');
 var User = require('./models/user');
 
 var app = express();
+
+/*
+var server = require('http').createServer(app);
+var io = require('socket.io').listen(server);
+
+server.listen(app.get('port'));
+var io = require('socket.io').listen(app.listen(secret.port));*/
+
 
 
 mongoose.connect(secret.database, function (err) {
@@ -51,8 +68,24 @@ app.use(function (req, res, next) {
     next();
 });
 
+/*
+SOCKET IO CHAT*/
+
+/*app.get('/', function(req, res){
+  res.sendFile(__dirname + '/chat');
+});*/
+/*app.get('/', function (req, res) {
+    res.sendfile('/chat');
+});*/
+/*io.on('connection', function (socket) {
+    console.log('a user connected');
+});*/
+
+/*New Route for socket*/
+app.use(express.static(__dirname + '/public'));
 
 
+/*Template engine*/
 app.engine('ejs', ejsmate);
 app.set('view engine', 'ejs');
 
