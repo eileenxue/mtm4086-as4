@@ -37,6 +37,11 @@ a:hover {
     border: none;
 }
 
+.navbar-nav .nav-item {
+    float: right;
+    padding: 1%;
+}
+
 .centeralign {
     text-align: center;
     background-color: black;
@@ -64,17 +69,40 @@ footer {
 
 .exclusive {
     text-align: center;
-    background-color: beige;
-    padding: 5%;
-    margin-top: -30px;
+    background-color: black;
+    padding: 2%;
+    margin-top: -33px;
 }
 
 .overlay {
     position: relative;
     background-color: black;
     opacity: 0.8;
-    padding: 3%;
+    padding: 3% 4%;
     text-align: center;
+}
+
+.typeone {
+    background-color: navy;
+    color: darkorange;
+}
+
+.typetwo {
+    background-color: darkorange;
+    color: navy;
+}
+
+.typeone,
+.typetwo {
+    padding: 2%;
+}
+
+.red {
+    color: red;
+}
+
+.navbar-brand {
+    font-size: 2em;
 }
 
 
