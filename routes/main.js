@@ -9,6 +9,10 @@ router.get('/about', function (req, res) {
     res.render('main/about');
 })
 
+/*router.get('/products/:id', function (req, res, next) {
+    res.render('main/about');
+})*/
+
 router.get('/chat', function (req, res) {
     res.render('main/chat');
 })
